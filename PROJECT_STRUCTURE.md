@@ -49,7 +49,7 @@ Portfolio/
     │   ├── icon-192.png          Android / PWA
     │   ├── icon-512.png          Android / PWA
     │   ├── manifest.webmanifest
-    │   └── resume.pdf            served at /resume.pdf
+    │   └── Nikhil_Goud_Palamakula_Resume.pdf   the CV; filename IS the download name
     └── src/
         ├── main.js               QueryClient → AntdTheme → BrowserRouter → App
         ├── App.js                all routes
@@ -143,9 +143,11 @@ The public site is **not** auth-gated. Only `/admin` is — it exists purely to 
 | Change any text on the site | `src/content/*.js` — nothing else |
 | Add / edit a project | `src/content/projects.js` (needs a unique `slug`) |
 | Change colours, fonts, spacing | `src/styles/global.scss` (tokens) or `variables.scss` |
-| Swap the resume PDF | replace `public/resume.pdf` |
+| Swap the resume PDF | replace `public/Nikhil_Goud_Palamakula_Resume.pdf`, keeping the name — or rename it and update `RESUME.href` + `RESUME.filename` together |
 | Hide every resume button | `RESUME.href = null` in `src/content/profile.js` |
 | Change the app icon | replace `public/favicon.svg`, then regenerate the raster set (§5) |
+| Add a social link | `PROFILE.socials` in `src/content/profile.js` + its logo in `brandIcons.js` |
+| Change the production domain | `PROFILE.site` (drives canonical + og:url) **and** the static `<link rel="canonical">` in `index.html` |
 | Add a tech logo to a tag | `src/components/BrandIcon/brandIcons.js` |
 | Add a nav item | `src/content/nav.js` + a route in `App.js` |
 | Add a page | `pages/` + route in `App.js`; heavy UI goes in `features/` |
@@ -190,4 +192,5 @@ These have already caused real bugs. Details in [DEVELOPMENT_LOG.md](DEVELOPMENT
 3. **`lucide-react` v1 has no brand or social icons.** `Linkedin`, `Github`, `Twitter` are gone and import as `undefined` with no build error. Add the SVG path to `brandIcons.js` instead.
 4. **Never give a CSS custom property its own value** (`--body: var(--body)`). It resolves to nothing and the property silently disappears.
 5. **Define every token for both themes.** A colour defined only in `:root` keeps its light value in dark mode.
-6. **A missing file in `public/` may download as HTML, not 404** — SPA fallback returns `index.html`. Confirm assets exist in `dist/` after building.
+6. **A missing file in `public/` may download as HTML, not 404** — SPA fallback returns `index.html`. Confirm assets exist in `dist/` after building. (`/resume.pdf` still returns 200 for this reason; nothing links to it.)
+7. **The download filename comes from two places.** The `download` attribute sets it for clicks; the file's own name is what a right-click Save-As or direct navigation uses. Keep `RESUME.filename` and the file in `public/` identical.

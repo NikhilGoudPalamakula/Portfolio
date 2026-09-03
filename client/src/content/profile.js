@@ -8,11 +8,17 @@ export const PROFILE = {
   email: 'nikhilgoudpalamakula@gmail.com',
   phone: '+91 95500 28076',
   available: true,
+  site: 'https://nikhilgoudpalamakula.vercel.app',
   socials: [
     {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/in/nikhil-goud-palamakula/',
       brand: 'LinkedIn',
+    },
+    {
+      label: 'GitHub',
+      href: 'https://github.com/NikhilGoudPalamakula',
+      brand: 'GitHub',
     },
   ],
 };
@@ -22,8 +28,8 @@ export const PROFILE = {
  * at /resume.pdf. Set `href: null` to hide every download button at once.
  */
 export const RESUME = {
-  href: '/resume.pdf',
-  filename: 'Nikhil-Goud-Palamakula-Resume.pdf',
+  href: '/Nikhil_Goud_Palamakula_Resume.pdf',
+  filename: 'Nikhil_Goud_Palamakula_Resume.pdf',
   label: 'Download resume',
   short: 'CV', // nav slot — no room for the full label
 };

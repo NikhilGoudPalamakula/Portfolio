@@ -4,7 +4,7 @@ How this portfolio was built, what was decided and why, and every bug found alon
 
 Companion doc: [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md).
 
-Built over 2026-08-31 → 2026-09-01.
+Built over 2026-08-31 → 2026-09-03.
 
 ---
 
@@ -65,12 +65,13 @@ So fonts, palette, type scale, every `clamp()`, letter-spacing, hairline grids, 
 3. **Resume download** — one `RESUME` constant in `content/profile.js`, consumed by three buttons (hero, contact, nav). `href: null` hides all three.
 4. **Nav `CV` button** — compact chip matching the theme toggle's chrome.
 5. **App icons** — full set generated from the supplied `logo.n.svg`, plus `manifest.webmanifest`.
+6. **Links & canonical URL** — GitHub added to `PROFILE.socials` (its mark added to `brandIcons.js`, since lucide has none). The Vercel URL became `PROFILE.site`, driving a per-route `<link rel="canonical">` and `og:url` rather than a button linking the site to itself; a static fallback for non-JS crawlers sits in `index.html`.
 
 ---
 
 ## 4. Bugs found and fixed
 
-All six were in the original design file or introduced during the port. Each changed rendered output.
+All seven were in the original design file or introduced during the port. Each changed rendered output.
 
 ### 4.1 Light mode had no body-copy colour
 ```css
@@ -141,9 +142,13 @@ Two headless gotchas worth remembering: a sub-second `--virtual-time-budget` mak
 ## 6. Assets
 
 ### Resume
-`public/resume.pdf` — 65,615 bytes, PDF 1.7, 2 pages, md5 `178ccf2f1ab18b7f290ccacb46b34e6a`.
+`public/Nikhil_Goud_Palamakula_Resume.pdf` — 66,276 bytes, PDF 1.7, 2 pages, md5 `0f061baa2cfec226ea6b94dc3c457eae`. Installed 2026-09-03, replacing an earlier draft that carried a placeholder (see §7).
 
-Verified: copies into `dist/`, serves as `application/pdf`, byte-identical over the wire, and a real click saves `Nikhil-Goud-Palamakula-Resume.pdf` with matching md5.
+The file is named exactly as it should download. Earlier the file was `resume.pdf` and only the `download` attribute renamed it — which meant a right-click Save-As, or navigating straight to the URL, produced "resume.pdf". Both now agree.
+
+Verified: copies into `dist/`, serves as `application/pdf`, byte-identical over the wire, and a real click saves `Nikhil_Goud_Palamakula_Resume.pdf` with matching md5.
+
+Its live links, read from the PDF's own annotations: the Vercel portfolio, the GitHub profile, and LinkedIn. All return `200`.
 
 ### App icons
 Source of truth is `public/favicon.svg` — the supplied `N` monogram in the site palette (paper `#F4F1EA`, ink `#1A1A17`, clay dot `#B4623C`). Everything else is generated from it (see PROJECT_STRUCTURE §5).
@@ -160,9 +165,9 @@ Removed: Vite's default purple lightning-bolt `favicon.svg` and the unused `icon
 
 ## 7. Open items
 
-### Blocking, before the site goes public
-1. **The resume PDF contains a placeholder.** Its header reads `Portfolio: nikhilgoud.dev | PLACEHOLDER — replace before sending` — visible, in red. Confirmed independently from the PDF's link annotations: live hyperlinks to `https://nikhilgoud.dev/` and LinkedIn. `nslookup nikhilgoud.dev` → **non-existent domain**. Anyone downloading the CV today gets a resume telling them to replace a placeholder and pointing at a dead domain.
-2. **The resume's portfolio URL should match wherever this deploys.**
+### Resolved
+- ~~**The resume PDF contains a placeholder.**~~ The first draft read `Portfolio: nikhilgoud.dev | PLACEHOLDER — replace before sending`, and `nikhilgoud.dev` did not resolve. Replaced 2026-09-03 with a version pointing at `nikhilgoudpalamakula.vercel.app` and `github.com/NikhilGoudPalamakula` — both verified `200`.
+- ~~**The resume's portfolio URL should match wherever this deploys.**~~ It now matches `PROFILE.site`.
 
 ### Nice to have
 - `gsap` and `@ant-design/icons` are installed but imported nowhere — safe to uninstall.
