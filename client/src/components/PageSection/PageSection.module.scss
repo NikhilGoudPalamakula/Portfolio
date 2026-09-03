@@ -1,0 +1,9 @@
+.section {
+  flex: 1;
+  padding: clamp(36px, 6vh, 64px) 0 40px;
+}
+
+.hero {
+  flex: 1;
+  padding: clamp(40px, 9vh, 96px) 0 40px;
+}

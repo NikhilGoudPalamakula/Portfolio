@@ -1,0 +1,26 @@
+@use '../../styles/mixins.scss' as *;
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 42px;
+}
+
+.title {
+  @include serif(clamp(30px, 5vw, 54px), 500, 1);
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+// Oversized section number bleeding behind the title.
+.ghost {
+  flex: none;
+  @include serif(clamp(52px, 9vw, 110px), 600, 0.9);
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  opacity: 0.16;
+  user-select: none;
+  pointer-events: none;
+}

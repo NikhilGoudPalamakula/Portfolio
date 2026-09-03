@@ -1,0 +1,84 @@
+@use './variables.scss' as *;
+
+// Small uppercase mono label — the recurring editorial eyebrow.
+@mixin mono-label($size: 11.5px, $tracking: 0.06em) {
+  font-family: var(--mono);
+  font-size: $size;
+  letter-spacing: $tracking;
+  text-transform: uppercase;
+}
+
+// Serif display type.
+@mixin serif($size, $weight: 500, $leading: 1) {
+  font-family: var(--serif);
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $leading;
+}
+
+/* ── Motion ──────────────────────────────────────────────────────────
+ * CSS Modules scopes @keyframes names per file — and it also rewrites the
+ * name inside an `animation` shorthand. So a keyframes block declared in
+ * global.scss can never match the hashed name a module references: the
+ * animation silently does nothing. Every module that animates must emit
+ * its own copy of the keyframes, which is what these *-keyframes mixins
+ * are for. Call them at the module's root, once.
+ * ------------------------------------------------------------------- */
+
+// Staggered entrance. Set `--i` on the element for its position in the list.
+@mixin rise-keyframes {
+  @keyframes edRise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@mixin rise {
+  animation: edRise 0.6s $ease-rise both;
+  animation-delay: calc(var(--i, 0) * 85ms + 120ms);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// Hero name: each word rises out of its own clipped box.
+@mixin word-keyframes {
+  @keyframes edWord {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Whole-page fade-up on route change.
+@mixin page-in-keyframes {
+  @keyframes edIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+// Group heading above a bullet list / skill column.
+@mixin group-title {
+  @include mono-label(12px);
+  color: var(--accent);
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}

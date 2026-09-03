@@ -1,0 +1,8 @@
+.icon {
+  flex: none;
+}
+
+// Near-black logos would vanish on the dark paper — paint them with the ink.
+:global(:root[data-theme='dark']) .darkBrand {
+  fill: var(--ink);
+}

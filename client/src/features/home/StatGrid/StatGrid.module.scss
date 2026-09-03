@@ -1,0 +1,40 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+@include rise-keyframes;
+
+// 1px gap over a --line background draws the hairline grid.
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin: 0 0 40px;
+  max-width: 720px;
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 16px;
+  background: var(--paper);
+  @include rise;
+}
+
+.value {
+  @include serif(clamp(28px, 4vw, 42px), 600, 1);
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.label {
+  @include mono-label(10.5px, 0.05em);
+  color: var(--muted);
+  line-height: 1.4;
+}

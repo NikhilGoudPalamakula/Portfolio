@@ -1,0 +1,45 @@
+@use '../../styles/variables.scss' as *;
+
+.drawer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  padding: 8px $page-pad 14px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  z-index: 29;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 4px;
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--ink);
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.active {
+    color: var(--accent);
+
+    .num {
+      color: var(--accent);
+    }
+  }
+}
+
+.num {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--line);
+  transition: color 0.2s;
+}

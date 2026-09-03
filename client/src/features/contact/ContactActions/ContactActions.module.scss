@@ -1,0 +1,13 @@
+@use '../../../styles/mixins.scss' as *;
+
+.lead {
+  @include serif(clamp(20px, 2.6vw, 30px), 500, 1.4);
+  max-width: 22ch;
+  margin: 0 0 32px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}

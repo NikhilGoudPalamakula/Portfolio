@@ -1,0 +1,37 @@
+@use '../../styles/variables.scss' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid var(--ink);
+  border-radius: $radius;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.solid {
+  background: var(--ink);
+  color: var(--paper);
+
+  &:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+    transform: translateY(-1px);
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+
+  &:hover {
+    border-color: var(--ink);
+    transform: translateY(-1px);
+  }
+}

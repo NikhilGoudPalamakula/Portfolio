@@ -1,0 +1,25 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.about {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: clamp(28px, 5vw, 72px);
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.body p {
+  font-size: 17px;
+  color: var(--body);
+  margin: 0 0 20px;
+  max-width: 60ch;
+}
+
+// First paragraph carries the serif, at display size.
+.lead {
+  @include serif(clamp(20px, 2.4vw, 26px), 400, 1.42);
+  color: var(--ink);
+}

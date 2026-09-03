@@ -1,0 +1,56 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+@include rise-keyframes;
+
+.path {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+  @include rise;
+
+  &:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+.year {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  padding-top: 3px;
+}
+
+.body {
+  h4 {
+    @include serif(21px, 500, 1.2);
+    margin: 0 0 7px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--body3);
+    max-width: 64ch;
+  }
+}
+
+.org {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 16px;
+}

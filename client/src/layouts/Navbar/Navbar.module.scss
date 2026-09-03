@@ -1,0 +1,126 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.nav {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 16px $page-pad;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  z-index: 30;
+}
+
+.name {
+  @include mono-label(12px);
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+// Below $bp-xs the full name would wrap against the CV + theme + burger
+// cluster, so the nav shows the first name instead.
+.nameShort {
+  display: none;
+}
+
+@media (max-width: $bp-xs) {
+  .nameFull {
+    display: none;
+  }
+
+  .nameShort {
+    display: inline;
+  }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.links {
+  display: flex;
+  gap: 6px;
+
+  @media (max-width: $bp-nav) {
+    display: none;
+  }
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 7px 12px;
+  border-radius: $radius;
+  transition: color 0.18s, background 0.18s;
+
+  &:hover {
+    color: var(--ink);
+  }
+
+  &.active {
+    color: var(--paper);
+    background: var(--ink);
+  }
+}
+
+// Compact download in the nav — sized to sit level with .theme.
+.cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  color: var(--ink);
+  @include mono-label(12px, 0.06em);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+
+  &:hover {
+    border-color: var(--ink);
+    transform: translateY(-1px);
+  }
+
+  svg {
+    flex: none;
+  }
+}
+
+.theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  color: var(--ink);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+
+  &:hover {
+    border-color: var(--ink);
+    transform: translateY(-1px);
+  }
+}
+
+.burger {
+  display: none;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  color: var(--ink);
+
+  @media (max-width: $bp-nav) {
+    display: flex;
+  }
+}

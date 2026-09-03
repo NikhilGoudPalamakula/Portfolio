@@ -1,0 +1,16 @@
+// ── Breakpoints ───────────────────────────────────────────
+$bp-nav: 820px;   // nav collapses to burger
+$bp-md:  760px;   // two-column grids stack
+$bp-sm:  640px;   // stat/path grids stack
+$bp-xs:  480px;   // nav brand drops to the short name
+
+// ── Shape ─────────────────────────────────────────────────
+$radius: 2px;
+
+// ── Layout ────────────────────────────────────────────────
+$max-width: 1100px;
+$page-pad: clamp(20px, 5vw, 64px);
+
+// ── Motion ────────────────────────────────────────────────
+$ease-rise: cubic-bezier(0.22, 0.61, 0.36, 1);
+$ease-out:  cubic-bezier(0.22, 1, 0.36, 1);

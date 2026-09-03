@@ -1,0 +1,15 @@
+{
+  "name": "Nikhil Goud Palamakula — Full-Stack Developer",
+  "short_name": "Nikhil Goud",
+  "description": "Full-stack developer in Hyderabad building production web applications — ERP, energy and manufacturing-intelligence platforms.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F4F1EA",
+  "theme_color": "#F4F1EA",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

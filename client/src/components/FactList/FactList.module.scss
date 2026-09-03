@@ -1,0 +1,31 @@
+@use '../../styles/mixins.scss' as *;
+
+.facts {
+  margin: 0;
+  border-top: 1px solid var(--line);
+  max-width: 560px;
+}
+
+.column {
+  max-width: none;
+}
+
+.fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+
+  dt {
+    @include mono-label(11.5px, 0.05em);
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: right;
+  }
+}

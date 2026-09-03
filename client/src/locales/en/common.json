@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "home": "Home",
+    "work": "Work",
+    "about": "About",
+    "skills": "Skills",
+    "path": "Path",
+    "contact": "Contact"
+  },
+  "actions": {
+    "getInTouch": "Get in touch",
+    "viewWork": "View work",
+    "downloadResume": "Download resume",
+    "readMore": "Read more",
+    "backToWork": "Back to work",
+    "visitSite": "Visit site",
+    "copyEmail": "Copy email",
+    "copied": "Copied",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "backHome": "Back home"
+  },
+  "sections": {
+    "work": "Selected Work",
+    "about": "About",
+    "skills": "Capabilities",
+    "path": "Path",
+    "contact": "Get in touch",
+    "keyNumbers": "Key numbers",
+    "whatIBuilt": "What I built",
+    "builtWith": "Built with"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "loginFailed": "Login failed",
+    "confidential": "Confidential — no public link"
+  }
+}

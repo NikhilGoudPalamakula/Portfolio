@@ -1,0 +1,41 @@
+@use '../../styles/mixins.scss' as *;
+
+.cta {
+  margin-top: 56px;
+  padding: 36px 0 8px;
+  border-top: 1px solid var(--line);
+}
+
+.kicker {
+  display: block;
+  @include mono-label(11.5px);
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.line {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--ink);
+  @include serif(clamp(30px, 5.5vw, 58px), 500, 1.02);
+  letter-spacing: -0.02em;
+  transition: color 0.25s, gap 0.25s;
+
+  em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  svg {
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    gap: 20px;
+
+    svg {
+      transform: translate(3px, -3px);
+    }
+  }
+}

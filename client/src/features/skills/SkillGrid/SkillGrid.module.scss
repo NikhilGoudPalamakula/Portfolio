@@ -1,0 +1,40 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+@include rise-keyframes;
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 4vw, 52px);
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.group {
+  @include rise;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 15px;
+  }
+}
+
+.title {
+  @include group-title;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+}

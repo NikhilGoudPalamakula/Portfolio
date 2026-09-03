@@ -1,0 +1,50 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+@include word-keyframes;
+
+.eyebrow {
+  @include mono-label(12.5px, 0.12em);
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.name {
+  @include serif(clamp(44px, 8.5vw, 110px), 500, 0.98);
+  letter-spacing: -0.02em;
+  margin: 0 0 28px;
+}
+
+// Each word rises out of its own clipped box.
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-right: 0.22em;
+}
+
+.wordIn {
+  display: inline-block;
+  // No resting transform: if animations never run, the word is simply visible.
+  // `edWord` supplies the translateY(105%) start frame itself.
+  animation: edWord 0.85s $ease-rise both;
+  animation-delay: calc(var(--i, 0) * 110ms + 100ms);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.lead {
+  @include serif(clamp(19px, 2.4vw, 28px), 400, 1.4);
+  color: var(--body);
+  margin: 0 0 34px;
+  max-width: 760px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
