@@ -1,3 +1,4 @@
+@use '../../../styles/variables.scss' as *;
 @use '../../../styles/mixins.scss' as *;
 
 .lead {
@@ -6,8 +7,15 @@
   margin: 0 0 32px;
 }
 
+/* The email address is a wide button, so this row only fits on one line from
+ * 920px up (measured). Between $bp-btn and there it wrapped 3 + 1, which is
+ * the ragged look we're avoiding — so it stacks all the way to $bp-contact.
+ */
 .actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  @include button-row($bp-contact);
+}
+
+.socials {
+  @include button-row($bp-contact);
+  margin-top: 12px;
 }

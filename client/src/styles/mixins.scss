@@ -74,6 +74,29 @@
   }
 }
 
+/* A row of buttons: wraps on desktop, stacks full-width on narrow screens.
+ * A ragged wrap — one button orphaned on its own line — reads as accidental,
+ * so below $stack-below each button takes the full width instead. Pass a wider
+ * breakpoint for rows holding a long label (the contact email, say).
+ */
+@mixin button-row($stack-below: $bp-btn) {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  @media (max-width: $stack-below) {
+    flex-direction: column;
+    align-items: stretch;
+
+    > a,
+    > button,
+    > span {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
 // Group heading above a bullet list / skill column.
 @mixin group-title {
   @include mono-label(12px);

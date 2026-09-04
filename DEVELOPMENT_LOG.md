@@ -4,7 +4,7 @@ How this portfolio was built, what was decided and why, and every bug found alon
 
 Companion doc: [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md).
 
-Built over 2026-08-31 → 2026-09-03.
+Built over 2026-08-31 → 2026-09-04.
 
 ---
 
@@ -67,11 +67,13 @@ So fonts, palette, type scale, every `clamp()`, letter-spacing, hairline grids, 
 5. **App icons** — full set generated from the supplied `logo.n.svg`, plus `manifest.webmanifest`.
 6. **Links & canonical URL** — GitHub added to `PROFILE.socials` (its mark added to `brandIcons.js`, since lucide has none). The Vercel URL became `PROFILE.site`, driving a per-route `<link rel="canonical">` and `og:url` rather than a button linking the site to itself; a static fallback for non-JS crawlers sits in `index.html`.
 
+7. **Mobile button alignment** — button rows now stack full-width below a measured breakpoint; socials moved to their own row. See §4.8–4.9.
+
 ---
 
 ## 4. Bugs found and fixed
 
-All seven were in the original design file or introduced during the port. Each changed rendered output.
+All nine were in the original design file or introduced during the port. Each changed rendered output.
 
 ### 4.1 Light mode had no body-copy colour
 ```css
@@ -122,6 +124,25 @@ Keyframe values confirmed: `edIn` `translateY(10px)`→`none` + opacity; `edRise
 
 ### 4.7 Nav brand wrapped after the CV button was added
 The ~61px CV chip pushed "NIKHIL GOUD PALAMAKULA" onto two lines at 360px (no overflow, but scrappy). **Fix:** the nav shows `PROFILE.short` below `$bp-xs` (480px). Measured after: 360 / 500 / 900 / 1440px all one line, no overflow, burger always on screen.
+
+### 4.8 Button rows wrapped raggedly on mobile
+Reported from the phone: rows of buttons wrapped so that a single button was orphaned on its own line — "Download resume" and "GitHub" each alone. Measured across widths:
+
+| Row | ragged at | clean from |
+|---|---|---|
+| Hero (3 buttons) | 360 / 414 / 480px — 2 lines | ~543px |
+| Contact (6 buttons) | 360px → **5 lines**, 414px → 4 lines, and 3 + 1 up to 900px | 920px |
+
+**Fix:** a `button-row` mixin — a wrapping row above the breakpoint, a full-width centred stack below it. Thresholds were measured rather than guessed (`$bp-btn` 560px; `$bp-contact` 919px, since the row provably fits from 920px). The six contact buttons were also split into two rows — primary contact and socials — because six in one row wrapped 5 + 1 even at 1440px once GitHub was added.
+
+A full sweep of `/`, `/contact` and a project page at 360 / 414 / 560 / 640 / 760 / 900 / 920 / 1024 / 1440px now reports no row wrapping to more than one line.
+
+### 4.9 `<button>` and `<a>` rendered different heights
+Found while checking the stacked spacing was even — the gaps were 57, 58, **53**, 58, 58. `global.scss` gives `button { font-family: inherit }` but not `line-height`, so a `<button>` fell back to `line-height: normal` (~40px tall) while the `<a>` buttons inherited 1.55 (~46px). In a flex *row* the default `align-items: stretch` equalised them, hiding it completely; stacking exposed it. Only "Copy email" is a real `<button>`, so only it was short.
+
+**Fix:** `.btn` pins `line-height: 1.55`. All six buttons now measure 46px.
+
+An audit for horizontal overflow and label collisions across all seven routes at 360 / 414 / 560px found nothing else.
 
 ---
 

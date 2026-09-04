@@ -43,8 +43,6 @@
 }
 
 .actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  @include button-row;
   margin-bottom: 48px;
 }

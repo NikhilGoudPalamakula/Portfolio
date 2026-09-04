@@ -66,7 +66,7 @@ Portfolio/
         ├── styles/               ★ ALL DESIGN TOKENS LIVE HERE ★
         │   ├── global.scss       CSS custom properties (light + dark), reset
         │   ├── variables.scss    SCSS breakpoints, radius, page padding, easing
-        │   └── mixins.scss       mono-label, serif, rise, *-keyframes, group-title
+        │   └── mixins.scss       mono-label, serif, rise, *-keyframes, button-row, group-title
         │
         ├── components/           generic, reused across features
         │   ├── BrandIcon/        brand logos by name + lucide line fallbacks
@@ -152,6 +152,7 @@ The public site is **not** auth-gated. Only `/admin` is — it exists purely to 
 | Add a nav item | `src/content/nav.js` + a route in `App.js` |
 | Add a page | `pages/` + route in `App.js`; heavy UI goes in `features/` |
 | Restyle one component | its own `*.module.scss` — never a global file |
+| Add a button to a row | nothing extra — `@include button-row` already handles the mobile stack. Re-measure if the row gets wider |
 
 **Adding a feature sub-component**
 1. `features/<domain>/<Name>/index.js` + `<Name>.module.scss`
@@ -193,4 +194,6 @@ These have already caused real bugs. Details in [DEVELOPMENT_LOG.md](DEVELOPMENT
 4. **Never give a CSS custom property its own value** (`--body: var(--body)`). It resolves to nothing and the property silently disappears.
 5. **Define every token for both themes.** A colour defined only in `:root` keeps its light value in dark mode.
 6. **A missing file in `public/` may download as HTML, not 404** — SPA fallback returns `index.html`. Confirm assets exist in `dist/` after building. (`/resume.pdf` still returns 200 for this reason; nothing links to it.)
-7. **The download filename comes from two places.** The `download` attribute sets it for clicks; the file's own name is what a right-click Save-As or direct navigation uses. Keep `RESUME.filename` and the file in `public/` identical.
+7. **Button rows stack full-width below a breakpoint** via the `button-row` mixin — a wrapped row that orphans one button reads as accidental. The stack breakpoints are *measured*, not guessed: `$bp-btn` (560px) for short rows, `$bp-contact` (919px) for the contact row, whose email button is wide. Adding a button to a row can push it past its threshold, so re-measure.
+8. **`<button>` does not inherit `line-height`.** It defaults to `normal` while `<a>` inherits the body's 1.55, so the two render ~5px different in height. Invisible in a flex row (stretch hides it), obvious once stacked. `.btn` pins `line-height: 1.55` for this reason.
+9. **The download filename comes from two places.** The `download` attribute sets it for clicks; the file's own name is what a right-click Save-As or direct navigation uses. Keep `RESUME.filename` and the file in `public/` identical.

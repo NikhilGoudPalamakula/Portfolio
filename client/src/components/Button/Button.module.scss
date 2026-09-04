@@ -9,6 +9,9 @@
   border-radius: $radius;
   font-size: 14px;
   font-weight: 500;
+  // <button> defaults to line-height: normal while <a> inherits 1.55, which
+  // makes them different heights once the row stacks. Pin it for both.
+  line-height: 1.55;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
 }

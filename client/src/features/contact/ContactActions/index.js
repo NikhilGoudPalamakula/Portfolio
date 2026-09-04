@@ -36,6 +36,10 @@ const ContactActions = () => {
           </Button>
         )}
 
+      </div>
+
+      {/* Socials on their own row — six buttons in one row wrap to 5 + 1. */}
+      <div className={styles.socials}>
         {PROFILE.socials.map((s) => (
           <Button key={s.label} href={s.href}>
             <BrandIcon name={s.brand} /> {s.label}
