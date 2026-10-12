@@ -344,3 +344,16 @@ Not in the resume, left unchanged: the Home stat **"15 plants & sites"**.
 **3 · Trace readout on Home.** The trace's two halves are buttons (hover, focus or tap): the digital stretch lights up with "2020 – 2023 · Automation engineer · SBR Automation", the analog one with "2023 – Now · Full-stack developer · Matrical → PatternLab.ai". The rest of the line dims, the matching label turns accent, and a caption card floats below (absolutely positioned — the hero never shifts). Captions are `aria-live="polite"`.
 
 **Verified** in headless Chrome over the DevTools protocol with real pointer events: NestJS opened to SeaTrace + Factory Intelligence; hovering the SBR block lit it and the SBR group; clicking it opened SBR (`aria-expanded=true`) and scrolled the view to 678px; both trace halves showed their cards.
+
+---
+
+## 17. Case studies condensed (added 2026-10-12)
+
+**The ask:** project pages carried too much copy (Factory Intelligence ~500 words / 36 bullets, SeaTrace 19) while HMS and Injectables had ~4 each. Make them skimmable without losing anything.
+
+- **Archive first:** `PROJECT_CONTENT_ARCHIVE.md` (repo root) — every project's previous copy, generated verbatim from `projects.js` before any edit, plus a table of what was folded vs. dropped per project.
+- **New project shape** (`projects.js` header comment): `summary { problem, role, result }` → `metrics` → `built` (3–4 strongest points, always visible) → `more` (`[{ label, items }]`, folded). The old `groups` / `build` / `highlights` / `detail` fields and their render paths are gone.
+- **Page:** summary as an accent-ruled problem / role / result list; "What I built" as plain bullets; `more` as native `<details>` folds (keyboard + screen-reader for free) with an item count and a `+` that turns to `×`. A single metric no longer stretches full width (`:has(> :only-child)` caps it at 240px).
+- **HMS** gained three "What I built" points from the resume (modules, client requirements, demos & pre-sales); **Pharma** gained a `4 · Pharma companies` metric.
+- Skill → project links re-checked after the rewrite: every match that existed before still resolves.
+- **Reverted the folds, same day:** the user felt the `<details>` folds only added clicks once the copy was already condensed. `more` sections now render openly like before, and each project's "More of what I built" group was merged into its `built` list (Factory Intelligence 9 points, EMS 7). Fold styles removed.

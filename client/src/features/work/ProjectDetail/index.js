@@ -11,6 +11,12 @@ const BackLink = () => (
   </Link>
 );
 
+const SUMMARY_ROWS = [
+  ['problem', 'The problem'],
+  ['role', 'My role'],
+  ['result', 'Result'],
+];
+
 const ProjectDetail = ({ project, num }) => {
   const p = project;
 
@@ -42,6 +48,17 @@ const ProjectDetail = ({ project, num }) => {
       </header>
 
       <div className={styles.body}>
+        {p.summary && (
+          <dl className={styles.summary}>
+            {SUMMARY_ROWS.map(([key, label]) => (
+              <div key={key} className={styles.summaryRow}>
+                <dt>{label}</dt>
+                <dd>{p.summary[key]}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
         {p.metrics && (
           <section className={styles.metrics}>
             <h4 className={styles.groupTitle}>Key numbers</h4>
@@ -56,33 +73,19 @@ const ProjectDetail = ({ project, num }) => {
           </section>
         )}
 
-        {p.groups?.map((g) => (
+        {p.built && (
+          <section className={styles.group}>
+            <h4 className={styles.groupTitle}>What I built</h4>
+            <Bullets items={p.built} />
+          </section>
+        )}
+
+        {p.more?.map((g) => (
           <section className={styles.group} key={g.label}>
             <h4 className={styles.groupTitle}>{g.label}</h4>
             <Bullets items={g.items} />
           </section>
         ))}
-
-        {p.build && (
-          <section className={styles.group}>
-            <h4 className={styles.groupTitle}>What I built</h4>
-            {p.build.map((sub) => (
-              <div className={styles.build} key={sub.label}>
-                <h5 className={styles.buildSub}>{sub.label}</h5>
-                <Bullets items={sub.items} />
-              </div>
-            ))}
-          </section>
-        )}
-
-        {p.highlights && (
-          <section className={styles.group}>
-            <h4 className={styles.groupTitle}>Highlights</h4>
-            <Bullets items={p.highlights} />
-          </section>
-        )}
-
-        {p.detail && <p className={styles.prose}>{p.detail}</p>}
 
         <section className={styles.group}>
           <h4 className={styles.groupTitle}>Built with</h4>

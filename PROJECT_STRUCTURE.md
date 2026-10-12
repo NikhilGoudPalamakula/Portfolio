@@ -35,6 +35,7 @@ Portfolio site for Nikhil Goud Palamakula. Single React SPA, no backend.
 
 ```
 Portfolio/
+├── PROJECT_CONTENT_ARCHIVE.md   full pre-condense project copy (2026-10-12)
 ├── PROJECT_STRUCTURE.md          ← this file
 ├── DEVELOPMENT_LOG.md            ← decisions, bugs, open items
 └── client/
