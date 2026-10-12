@@ -1,0 +1,58 @@
+@use '../../../styles/mixins.scss' as *;
+
+@keyframes lampPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(90, 158, 120, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(90, 158, 120, 0);
+  }
+}
+
+@keyframes statusIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  @include mono-label(11.5px, 0.1em);
+  color: var(--muted);
+  animation: statusIn 0.6s ease 0.5s both;
+
+  time {
+    color: var(--body);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// "Running" lamp — green reads as available everywhere, so it steps
+// outside the editorial palette on purpose.
+.lamp {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5a9e78;
+  animation: lampPulse 2.4s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.sep {
+  opacity: 0.6;
+}

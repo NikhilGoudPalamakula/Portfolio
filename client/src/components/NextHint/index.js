@@ -10,7 +10,7 @@ import styles from './NextHint.module.scss';
  * section, so reaching the end of one page doesn't mean a trip back up to
  * the nav. Dismissable — and a dismissal sticks for the session.
  *
- * Renders nothing at the end of the ladder (Contact) or on any route outside
+ * Renders nothing at the end of the ladder (Skills) or on any route outside
  * it (project detail pages have their own pager).
  */
 const NextHint = ({ scrollRef }) => {

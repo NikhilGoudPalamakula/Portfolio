@@ -9,7 +9,7 @@ const WorkPage = () => {
   useDocumentMeta({
     title: `Selected Work — ${PROFILE.name}`,
     description:
-      'Selected work: a seafood ERP, a multi-tenant factory intelligence platform, an energy management system, a hospital ERP, and pharma automation projects.',
+      'Selected work by employer — from PLC and SCADA engineering in pharma and manufacturing to full-stack development: a seafood ERP, a multi-tenant factory intelligence platform, an energy management system and a hospital ERP.',
   });
 
   return (

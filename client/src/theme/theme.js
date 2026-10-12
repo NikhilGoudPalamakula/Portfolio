@@ -4,12 +4,12 @@
  */
 export const colors = {
   light: {
-    paper: '#f4f1ea',
+    paper: '#fafaf8',
     ink: '#1a1a17',
     muted: '#6e6a60',
-    line: '#dad5c8',
-    surface: '#ede9e0',
-    surface2: '#e7e2d8',
+    line: '#e3e2de',
+    surface: '#f3f3f0',
+    surface2: '#ecebe8',
     pine: '#1e3a2f',
     indigo: '#3d3ae0',
     clay: '#b4623c',

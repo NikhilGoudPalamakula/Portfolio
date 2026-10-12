@@ -24,3 +24,25 @@
   user-select: none;
   pointer-events: none;
 }
+
+/* Drifts down and fades a touch over the first 420px of scroll, so the
+ * title slides past it — a hint of depth. Driven by the scroll position
+ * of the nearest scroller (MainLayout's .view), no JS. Browsers without
+ * scroll timelines (Firefox today) just keep it still.
+ */
+@keyframes ghostDrift {
+  to {
+    transform: translateY(36px);
+    opacity: 0.06;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ghost {
+      animation: ghostDrift linear both;
+      animation-timeline: scroll(nearest block);
+      animation-range: 0 420px;
+    }
+  }
+}

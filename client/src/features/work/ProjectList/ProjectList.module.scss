@@ -3,23 +3,214 @@
 
 @include rise-keyframes;
 
+// Rows step in one after another when a group opens, and each index
+// "lamp" switches on just after its row — like a panel coming up.
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lampOn {
+  0% {
+    opacity: 0.2;
+  }
+  60% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .list {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--line);
 }
 
-.project {
+// ── Employer (accordion item) ─────────────────────────────────
+.group {
+  border-bottom: 1px solid var(--line);
+  @include rise;
+}
+
+.heading {
+  margin: 0;
+  font: inherit;
+}
+
+.toggle {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px 28px;
+  width: 100%;
+  padding: 26px 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover .org {
+    color: var(--accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'name icon'
+      'roles roles';
+  }
+}
+
+.employerName {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+
+  @media (max-width: $bp-sm) {
+    grid-area: name;
+  }
+}
+
+.org {
+  @include serif(clamp(24px, 3vw, 34px), 500, 1.1);
+  letter-spacing: -0.01em;
+  transition: color 0.22s ease;
+}
+
+.count {
+  @include mono-label(11px);
+  color: var(--muted);
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+
+  @media (max-width: $bp-sm) {
+    grid-area: roles;
+    text-align: left;
+  }
+}
+
+.roleLine {
+  display: flex;
+  flex-direction: column;
+}
+
+.role {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--body);
+}
+
+.roleYear {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.icon {
+  color: var(--muted);
+  transition: transform 0.3s $ease-out, color 0.2s;
+
+  @media (max-width: $bp-sm) {
+    grid-area: icon;
+  }
+}
+
+.open .icon {
+  transform: rotate(45deg);
+  color: var(--accent);
+}
+
+// ── Collapsible panel ─────────────────────────────────────────
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s $ease-out;
+
+  .open & {
+    grid-template-rows: 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.panelInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.note {
+  margin: -6px 0 18px;
+  font-size: 15px;
+  color: var(--body3);
+  max-width: 68ch;
+}
+
+.rows {
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+
+  li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  // Re-runs on every open: the animation only exists while `.open` does.
+  .open & li {
+    animation: rowIn 0.45s $ease-out both;
+    animation-delay: calc(var(--r, 0) * 75ms + 120ms);
+  }
+
+  .open & .index {
+    animation: lampOn 0.5s ease both;
+    animation-delay: calc(var(--r, 0) * 75ms + 300ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .open & li,
+    .open & .index {
+      animation: none;
+    }
+  }
+}
+
+// ── Compact project row ───────────────────────────────────────
+.row {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: clamp(20px, 4vw, 56px);
-  align-items: start;
-  padding: clamp(24px, 3.4vh, 36px) 0;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
+  grid-template-columns: auto 1fr auto 170px auto;
+  align-items: baseline;
+  gap: 4px 22px;
+  padding: 16px 0;
+  color: inherit;
   transition: padding 0.25s ease;
-  @include rise;
 
   // Tint rail that wipes down on hover.
   &::before {
@@ -35,8 +226,9 @@
     transition: transform 0.3s ease;
   }
 
-  &:hover {
-    padding-left: 20px;
+  &:hover,
+  &:focus-visible {
+    padding-left: 16px;
 
     &::before {
       transform: scaleY(1);
@@ -46,115 +238,101 @@
       color: var(--tint, var(--accent));
     }
 
-    .tags span {
-      border-color: var(--hairline);
-      color: var(--body3);
+    .blurbWrap {
+      grid-template-rows: 1fr;
     }
 
-    .more {
-      gap: 11px;
-
-      svg {
-        transform: translate(2px, -2px);
-      }
+    .arrow {
+      transform: translate(2px, -2px);
+      color: var(--ink);
     }
   }
 
   @media (max-width: $bp-md) {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: auto 1fr auto;
   }
 }
 
-.left {
-  min-width: 0;
-}
-
-.tops {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
 .index {
-  display: inline-block;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--tint, var(--accent));
-  border: 1px solid var(--line);
-  border-radius: $radius;
-  padding: 3px 9px;
 }
 
-.year {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: 0.05em;
-  color: var(--muted);
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .title {
-  @include serif(clamp(24px, 3.2vw, 38px), 500, 1.04);
-  letter-spacing: -0.01em;
-  margin: 0 0 10px;
+  @include serif(clamp(19px, 2vw, 23px), 500, 1.25);
   transition: color 0.22s ease;
 }
 
-.meta {
-  @include mono-label(11.5px);
-  color: var(--muted);
-}
+// Blurb: collapsed until the row is hovered/focused; always open on touch.
+.blurbWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s $ease-out;
 
-.right {
-  padding-top: 6px;
+  @media (hover: none) {
+    grid-template-rows: 1fr;
+  }
 
-  @media (max-width: $bp-md) {
-    padding-top: 0;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
 .blurb {
-  font-size: 16px;
-  color: var(--body2);
-  margin: 0 0 18px;
-  max-width: 52ch;
+  min-height: 0;
+  overflow: hidden;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--body3);
+  max-width: 60ch;
+  padding-top: 4px;
 }
 
-.tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
+.category,
+.year {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  white-space: nowrap;
+}
 
-  span {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.03em;
-    color: var(--muted);
-    border: 1px solid var(--line);
-    border-radius: $radius;
-    padding: 4px 9px;
-    transition: border-color 0.2s, color 0.2s;
+.year {
+  text-align: right;
+}
+
+// Stacked: category and year move into one meta line under the title.
+.meta {
+  display: none;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+@media (max-width: $bp-md) {
+  .category,
+  .year {
+    display: none;
+  }
+
+  .meta {
+    display: block;
   }
 }
 
-.more {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13.5px;
-  font-weight: 600;
-  border-bottom: 1.5px solid var(--ink);
-  padding-bottom: 2px;
-  transition: gap 0.25s ease;
-
-  svg {
-    transition: transform 0.25s ease;
-  }
+.arrow {
+  color: var(--muted);
+  transition: transform 0.25s ease, color 0.2s;
+  align-self: center;
 }

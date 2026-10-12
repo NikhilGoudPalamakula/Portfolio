@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import ProtectedRoute from '@/auth/ProtectedRoute';
 import HomePage from '@/pages/HomePage';
@@ -6,8 +6,6 @@ import WorkPage from '@/pages/WorkPage';
 import ProjectPage from '@/pages/ProjectPage';
 import AboutPage from '@/pages/AboutPage';
 import SkillsPage from '@/pages/SkillsPage';
-import PathPage from '@/pages/PathPage';
-import ContactPage from '@/pages/ContactPage';
 import LoginPage from '@/pages/LoginPage';
 import AdminPage from '@/pages/AdminPage';
 import NotFoundPage from '@/pages/NotFoundPage';
@@ -24,8 +22,10 @@ const App = () => (
       <Route path="/work/:slug" element={<ProjectPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/skills" element={<SkillsPage />} />
-      <Route path="/path" element={<PathPage />} />
-      <Route path="/contact" element={<ContactPage />} />
+      {/* Retired pages — keep old links working.
+          Path merged into Work; contact details now close every page. */}
+      <Route path="/path" element={<Navigate to="/work" replace />} />
+      <Route path="/contact" element={<Navigate to="/" replace />} />
 
       {/* Auth-gated area — scaffolding, nothing public depends on it */}
       <Route element={<ProtectedRoute />}>

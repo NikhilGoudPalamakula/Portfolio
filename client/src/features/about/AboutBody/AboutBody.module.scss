@@ -1,13 +1,54 @@
 @use '../../../styles/variables.scss' as *;
 @use '../../../styles/mixins.scss' as *;
 
+// Desktop: story on the left, portrait over the facts on the right.
+// Stacked: portrait first, so it isn't buried under the whole story.
 .about {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
-  gap: clamp(28px, 5vw, 72px);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'body photo'
+    'body facts';
+  column-gap: clamp(28px, 5vw, 72px);
+  row-gap: 28px;
 
   @media (max-width: $bp-md) {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      'photo'
+      'body'
+      'facts';
+  }
+}
+
+.body {
+  grid-area: body;
+}
+
+.facts {
+  grid-area: facts;
+}
+
+.portrait {
+  grid-area: photo;
+  margin: 0;
+  max-width: 360px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    border-radius: $radius;
+    background: var(--surface);
+  }
+
+  @media (max-width: $bp-md) {
+    max-width: 300px;
   }
 }
 

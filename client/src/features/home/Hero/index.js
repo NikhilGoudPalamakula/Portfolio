@@ -1,14 +1,19 @@
 import { Mail, ArrowUpRight, FileDown } from 'lucide-react';
 import { PROFILE, RESUME } from '@/content';
 import Button from '@/components/Button';
+import SignalTrace from '@/features/home/SignalTrace';
+import StatusLine from '@/features/home/StatusLine';
 import styles from './Hero.module.scss';
 
 const MAIL_TO = `mailto:${PROFILE.email}?subject=${encodeURIComponent("Let's connect")}`;
 
 const Hero = () => (
   <>
-    <div className={styles.eyebrow}>
-      {PROFILE.role} — {PROFILE.location}
+    <div className={styles.top}>
+      <div className={styles.eyebrow}>
+        {PROFILE.role} — {PROFILE.location}
+      </div>
+      <StatusLine />
     </div>
 
     <h1 className={styles.name}>
@@ -20,6 +25,8 @@ const Hero = () => (
         </span>
       ))}
     </h1>
+
+    <SignalTrace />
 
     <p className={styles.lead}>{PROFILE.tagline}</p>
 

@@ -5,17 +5,13 @@ import BrandIcon from '@/components/BrandIcon';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import styles from './ContactActions.module.scss';
 
-const MAIL_TO = `mailto:${PROFILE.email}?subject=${encodeURIComponent("Let's connect")}`;
+export const MAIL_TO = `mailto:${PROFILE.email}?subject=${encodeURIComponent("Let's connect")}`;
 
 const ContactActions = () => {
   const { copied, copy } = useCopyToClipboard();
 
   return (
     <>
-      <p className={styles.lead}>
-        Open to new opportunities. The quickest way to reach me is email.
-      </p>
-
       <div className={styles.actions}>
         <Button variant="solid" href={MAIL_TO}>
           <Mail size={15} /> {PROFILE.email}

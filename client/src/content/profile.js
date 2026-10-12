@@ -5,6 +5,8 @@ export const PROFILE = {
   tagline:
     'I build fast, reliable web applications — from the database schema to the pixel-perfect UI. I came up through factory-floor engineering, so I build for the real world, not just the browser.',
   location: 'Hyderabad, India',
+  timeZone: 'Asia/Kolkata', // drives the live clock in the hero status line
+  timeZoneLabel: 'IST',
   email: 'nikhilgoudpalamakula@gmail.com',
   phone: '+91 95500 28076',
   available: true,

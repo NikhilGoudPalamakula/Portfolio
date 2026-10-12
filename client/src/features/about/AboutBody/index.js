@@ -1,5 +1,6 @@
-import { ABOUT } from '@/content';
+import { ABOUT, PROFILE } from '@/content';
 import FactList from '@/components/FactList';
+import portrait from '@/assets/portrait.jpg';
 import styles from './AboutBody.module.scss';
 
 const AboutBody = () => (
@@ -11,7 +12,12 @@ const AboutBody = () => (
         </p>
       ))}
     </div>
-    <FactList column />
+    <figure className={styles.portrait}>
+      <img src={portrait} alt={PROFILE.name} width="960" height="1200" />
+    </figure>
+    <div className={styles.facts}>
+      <FactList column />
+    </div>
   </div>
 );
 

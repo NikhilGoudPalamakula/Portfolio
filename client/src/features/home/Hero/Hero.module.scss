@@ -3,10 +3,19 @@
 
 @include word-keyframes;
 
+// Eyebrow left, live status right; stacks when there's no room.
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 24px;
+  margin-bottom: 24px;
+}
+
 .eyebrow {
   @include mono-label(12.5px, 0.12em);
   color: var(--accent);
-  margin-bottom: 24px;
 }
 
 .name {

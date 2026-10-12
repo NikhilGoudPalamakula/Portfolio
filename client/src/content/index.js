@@ -1,6 +1,6 @@
 export { PROFILE, RESUME, ABOUT, QUICK_FACTS, SEO_DESCRIPTION } from './profile';
 export { PROJECTS, getProjectBySlug, getProjectIndex, getAdjacentProjects } from './projects';
 export { SKILLS } from './skills';
-export { PATH } from './path';
+export { CAREER } from './career';
 export { STATS } from './stats';
 export { NAV, getNextSection } from './nav';

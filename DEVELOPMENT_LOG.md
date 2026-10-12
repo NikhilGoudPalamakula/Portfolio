@@ -202,7 +202,7 @@ Removed: Vite's default purple lightning-bolt `favicon.svg` and the unused `icon
 ### Open, from §8
 - On desktop the chip does not appear on About / Skills (and Path at 1440px) because those pages fit the viewport. Options: leave it, show it on short pages after a short delay, or add the inline end-of-page pager as a fallback for short pages.
 - On mobile at full scroll the chip overlaps the footer line. Fixable with bottom breathing room on the scroll container, at the cost of dead space once dismissed.
-- Path shows both the chip ("Up next — Contact") and the CTA ("Let's build something"); same destination, different words. Suppressible in one line if it reads as duplication.
+- ~~Path shows both the chip ("Up next — Contact") and the CTA~~ — resolved by §9: Path is now the end of the ladder, so it shows no chip.
 
 ### Not verified
 Real-device touch behaviour, Safari, Firefox, and cold-cache font loading (FOUT). All checks above ran in headless Chrome.
@@ -237,3 +237,74 @@ So on a large desktop the chip only appears on the two long pages. That is defen
 
 ### Worth knowing about the premise
 In this layout the navbar sits in a fixed shell and **never scrolls away** — only `.view` scrolls. So the chip saves cursor travel, not a scroll journey back to the top. Its clearest value is on mobile, where the nav is behind the burger, and that is also where it fires on every page.
+
+---
+
+## 9. Contact folded into the CTA (added 2026-10-12)
+
+**The ask:** "Let's build something" used to link to a separate `/contact` page. Put the contact details right under it instead, and drop the page.
+
+- `CtaBanner` now renders the headline (a `mailto:` link), a one-line lead, and `ContactActions` — the email / phone / copy / resume row and the socials row. It already closed Home, Work, About, Skills and Path, so every page now ends with the full contact block.
+- `ContactActions` moved from `features/contact/` to `components/`, since a shared component now uses it. Its old serif lead was dropped; `CtaBanner` carries a smaller one.
+- `ContactPage` and the Contact nav item are gone. `/contact` redirects to `/` so old links keep working. Path is now the end of the "up next" ladder.
+- **Not re-measured:** every page is now taller by the two button rows, so the §8 "too short" table (which pages show the chip on desktop) is likely out of date.
+
+Also on 2026-10-12: the light theme moved off cream to a neutral near-white (`--paper` `#f4f1ea` → `#fafaf8`, with `--surface`, `--surface2`, `--line` and `--hairline` adjusted to match, mirrored in `theme/theme.js` and the `theme-color` meta).
+
+---
+
+## 10. Path merged into Work (added 2026-10-12)
+
+**The ask:** Work and Path told the same story twice — Work in depth, Path company by company. Fold Path into Work and drop the tab.
+
+- `content/path.js` became `content/career.js` (`CAREER`): one entry per employer with `org`, optional `location`, a `roles` array (SBR has two), and an optional `note`.
+- `ProjectList` now groups projects under an employer header (name, location, role(s) + dates, note). A project joins a group when its `org` matches `CAREER[].org` **exactly**; anything unmatched still renders, in a trailing headerless group. Project numbering stays global (01–06) so it matches the detail pages.
+- The card's meta line dropped `· org` — the group header already says it.
+- Nothing from Path was lost: the SBR techno-commercial line (negotiations, quotation-to-closing, Mahindra & Mahindra) lives in the SBR note. Matrical's generic note was replaced with the client-facing work from the resume (requirements → specs, demos, pre-sales), condensed to one line to match the other headers.
+- `PathPage`, `features/path/Timeline` and the nav item are gone; `/path` redirects to `/work`. Nav is now Home · Work · About · Skills, so the "up next" ladder ends at Skills.
+- The two SBR projects have no `year`, so their cards show only the number.
+
+---
+
+## 11. Portrait on About (added 2026-10-12)
+
+- Placed on About, not Home: the Home hero is pure typography (name with a word-by-word entrance), and a photo would compete with it; About's narrow right column had room above the quick facts.
+- `src/assets/portrait.jpg` — cropped 4:5 from a 3066×1737 landscape original (crop starts at x=820, full height, so the pillar on the left is excluded), resized to 960×1200, JPEG q82 → 121 KB. Re-crop from the original if a different framing is wanted.
+- `AboutBody` uses grid areas: desktop `body | photo` over `body | facts`; stacked below `$bp-md` it goes photo → story → facts (capped at 300px wide) so the photo isn't buried at the bottom.
+- Not done: using it as the `og:image` for link previews.
+
+---
+
+## 12. Work as an accordion (added 2026-10-12)
+
+**The ask:** the grouped Work page (§10) loaded every card in full at once and read as crowded. Show the career outline first, reveal projects on demand.
+
+- Each employer is a disclosure button (`aria-expanded` / `aria-controls`): name, project count, role(s) + dates, and a `+` that turns into `×` when open. Click/tap toggles — **not hover**, which does nothing on touch and makes the list jump under a desktop cursor. Several can be open at once.
+- The most recent employer (first in `CAREER`) is open by default, so a visitor sees real work on arrival.
+- Open/close animates `grid-template-rows: 0fr → 1fr` (no height measuring). Closed panels are `inert`, so their links can't be tabbed to.
+- Inside, each project is one compact row — number, title, category, dates, arrow. The blurb slides in on hover/focus and is always shown on touch (`@media (hover: none)`). Tags and "Read more" are gone from the list; they live on the project page.
+- Below `$bp-md` category and dates collapse into one mono line under the title.
+- Trade-off accepted: a skimmer won't see Matrical / SBR projects without opening them; the project count beside each name signals there is more.
+
+---
+
+## 13. Motion pass, step 1 — signal trace (added 2026-10-12)
+
+**The ask:** the site read as flat / template-like. Add motion that feels personal rather than generic. Agreed plan, one at a time: (1) hero signal trace, (2) live status line, (3) staggered row step-in on Work, (4) section-number scroll drift. Explicitly avoided: particles, gradient blobs, custom cursor, typewriter text, logo marquees, infinite loops.
+
+- `features/home/SignalTrace/` — an inline SVG under the hero name: a PLC-style square wave (automation years) that smooths into a continuous wave (software) and ends on a node. Labels: "2020 · PLC / SCADA" → "Now · Full-stack".
+- Draws once via `stroke-dashoffset` on `pathLength="1"`, starting at 1.15s (after the name's word rise), then the node switches on and pings **once**. `preserveAspectRatio="none"` + `vector-effect: non-scaling-stroke` keep the line weight constant at any width.
+- Reduced motion: the finished trace, static.
+- **Verification caveat:** headless Chrome screenshots don't advance CSS animations reliably (even the name was caught mid-rise), so the final state was checked with `--force-prefers-reduced-motion`. The draw itself has only been seen in code, not on screen.
+
+---
+
+## 14. Motion pass, steps 2–4 (added 2026-10-12)
+
+**2 · Status line** — `features/home/StatusLine/` sits opposite the hero eyebrow (wraps under it when narrow): a green "running" lamp, "Open to work", and live local time (`16:47 IST`). Time comes from `useLocalTime(PROFILE.timeZone)` (Intl, ticks every 15s). The lamp's slow pulse is the **only** looping animation on the site. "Open to work" follows `PROFILE.available`. The green deliberately steps outside the palette — it's the universal "available" colour.
+
+**3 · Row step-in on Work** — when an employer opens, its rows slide in 75ms apart and each index number flickers on like a lamp. The keyframes hang off `.open`, so they re-run on every open and vanish on close.
+
+**4 · Section-number drift** — `SectionHead`'s ghost number moves 36px down and fades to 0.06 over the first 420px of scroll, via `animation-timeline: scroll(nearest block)` (MainLayout's `.view` is the scroller). Pure CSS; wrapped in `@supports` and `prefers-reduced-motion: no-preference`, so Firefox and reduced-motion users get a still number.
+
+**Verified in real time** this time — headless Chrome driven over the DevTools protocol (a throwaway script, not in the repo): the trace caught mid-draw and settled, SBR clicked open with rows caught mid-step, and the ghost measured at `translateY(25.7px)`, opacity `0.089` after 300px of scroll (expected 300/420 × 36 = 25.7).

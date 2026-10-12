@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
  * True once `ref` is scrolled past `ratio` of its scrollable distance.
  *
  * Deliberately false when there is little to scroll — on a page barely taller
- * than the viewport (Contact) a threshold would trip immediately, which is the
+ * than the viewport a threshold would trip immediately, which is the
  * main way this kind of affordance becomes annoying.
  *
  * `resetKey` (the pathname) re-runs the check after a route swap, since the

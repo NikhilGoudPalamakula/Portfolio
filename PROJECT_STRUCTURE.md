@@ -58,7 +58,7 @@ Portfolio/
         │   ├── profile.js        PROFILE, RESUME, ABOUT, QUICK_FACTS, SEO_DESCRIPTION
         │   ├── projects.js       PROJECTS (+ getProjectBySlug / getProjectIndex)
         │   ├── skills.js         SKILLS
-        │   ├── path.js           PATH (work history)
+        │   ├── career.js         CAREER (employers + roles; heads the Work groups)
         │   ├── stats.js          STATS (hero counters)
         │   ├── nav.js            NAV
         │   └── index.js          re-exports — import from '@/content'
@@ -74,8 +74,9 @@ Portfolio/
         │   ├── Bullets/          bullet list, auto-emphasises figures
         │   ├── Button/           solid | ghost; renders Link / a / button
         │   ├── Counter/          0 → n count-up on mount
-        │   ├── CtaBanner/        "Let's build something"
-    │   ├── NextHint/         sticky "up next" chip, fades in near page bottom
+        │   ├── ContactActions/   email / phone / copy / resume + socials button rows
+        │   ├── CtaBanner/        "Let's build something" + ContactActions; closes every page
+        │   ├── NextHint/         sticky "up next" chip, fades in near page bottom
         │   ├── FactList/         QUICK_FACTS definition list
         │   ├── PageSection/      page vertical rhythm; `hero` variant
         │   └── SectionHead/      title + oversized ghost number
@@ -85,13 +86,11 @@ Portfolio/
         │   ├── work/             ProjectList, ProjectDetail, ProjectPager
         │   ├── about/            AboutBody
         │   ├── skills/           SkillGrid
-        │   ├── path/             Timeline
-        │   ├── contact/          ContactActions
         │   └── login/            + services/ (loginService, loginQueries)
         │
         ├── pages/                route targets — compose features
         │   ├── HomePage.js  WorkPage.js  ProjectPage.js  AboutPage.js
-        │   ├── SkillsPage.js  PathPage.js  ContactPage.js
+        │   ├── SkillsPage.js
         │   └── LoginPage.js  AdminPage.js  NotFoundPage.js
         │
         ├── layouts/
@@ -102,7 +101,7 @@ Portfolio/
         ├── hooks/
         │   ├── useTheme.js           store → <html data-theme>
         │   ├── useDocumentMeta.js    per-page title + OG tags
-    │   ├── useScrolledPast.js    scroll-progress threshold for NextHint
+        │   ├── useScrolledPast.js    scroll-progress threshold for NextHint
         │   └── useCopyToClipboard.js
         │
         ├── store/appStore.js     theme (persisted), mobile menu
@@ -126,8 +125,8 @@ Portfolio/
 | `/work/:slug` | ProjectPage | MainLayout |
 | `/about` | AboutPage | MainLayout |
 | `/skills` | SkillsPage | MainLayout |
-| `/path` | PathPage | MainLayout |
-| `/contact` | ContactPage | MainLayout |
+| `/path` | redirects to `/work` — merged into the Work groups | MainLayout |
+| `/contact` | redirects to `/` — contact details live in CtaBanner | MainLayout |
 | `/admin` | AdminPage | MainLayout + ProtectedRoute |
 | `/login` | LoginPage | standalone |
 | `*` | NotFoundPage | MainLayout |
