@@ -75,13 +75,14 @@ Portfolio/
         │   ├── Button/           solid | ghost; renders Link / a / button
         │   ├── Counter/          0 → n count-up on mount
         │   ├── CtaBanner/        "Let's build something"
+    │   ├── NextHint/         sticky "up next" chip, fades in near page bottom
         │   ├── FactList/         QUICK_FACTS definition list
         │   ├── PageSection/      page vertical rhythm; `hero` variant
         │   └── SectionHead/      title + oversized ghost number
         │
         ├── features/             one folder per domain
         │   ├── home/             Hero, StatGrid
-        │   ├── work/             ProjectList, ProjectDetail
+        │   ├── work/             ProjectList, ProjectDetail, ProjectPager
         │   ├── about/            AboutBody
         │   ├── skills/           SkillGrid
         │   ├── path/             Timeline
@@ -101,6 +102,7 @@ Portfolio/
         ├── hooks/
         │   ├── useTheme.js           store → <html data-theme>
         │   ├── useDocumentMeta.js    per-page title + OG tags
+    │   ├── useScrolledPast.js    scroll-progress threshold for NextHint
         │   └── useCopyToClipboard.js
         │
         ├── store/appStore.js     theme (persisted), mobile menu
@@ -149,7 +151,8 @@ The public site is **not** auth-gated. Only `/admin` is — it exists purely to 
 | Add a social link | `PROFILE.socials` in `src/content/profile.js` + its logo in `brandIcons.js` |
 | Change the production domain | `PROFILE.site` (drives canonical + og:url) **and** the static `<link rel="canonical">` in `index.html` |
 | Add a tech logo to a tag | `src/components/BrandIcon/brandIcons.js` |
-| Add a nav item | `src/content/nav.js` + a route in `App.js` |
+| Add a nav item | `src/content/nav.js` + a route in `App.js` — this also reorders the "up next" ladder |
+| Reorder project prev/next | the order of `PROJECTS` in `src/content/projects.js` |
 | Add a page | `pages/` + route in `App.js`; heavy UI goes in `features/` |
 | Restyle one component | its own `*.module.scss` — never a global file |
 | Add a button to a row | nothing extra — `@include button-row` already handles the mobile stack. Re-measure if the row gets wider |

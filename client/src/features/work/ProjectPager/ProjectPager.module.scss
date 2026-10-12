@@ -1,0 +1,85 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+.pager {
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 4vw, 40px);
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.prev {
+  align-items: flex-start;
+  text-align: left;
+}
+
+// Right-aligned on desktop so the pair reads as a spread; left on mobile
+// where both sit in one column.
+.next {
+  align-items: flex-end;
+  text-align: right;
+
+  @media (max-width: $bp-md) {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  @include mono-label(11px, 0.06em);
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.title {
+  @include serif(clamp(18px, 2.2vw, 24px), 500, 1.15);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  transition: color 0.22s;
+}
+
+.side:hover {
+  .kicker {
+    color: var(--accent);
+  }
+
+  .title {
+    color: var(--accent);
+  }
+}
+
+.all {
+  display: block;
+  width: fit-content;
+  margin: 32px auto 0;
+  @include mono-label(11.5px, 0.05em);
+  color: var(--muted);
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+
+  &:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+}

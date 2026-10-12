@@ -4,7 +4,7 @@ How this portfolio was built, what was decided and why, and every bug found alon
 
 Companion doc: [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md).
 
-Built over 2026-08-31 → 2026-09-04.
+Built over 2026-08-31 → 2026-09-08.
 
 ---
 
@@ -68,6 +68,8 @@ So fonts, palette, type scale, every `clamp()`, letter-spacing, hairline grids, 
 6. **Links & canonical URL** — GitHub added to `PROFILE.socials` (its mark added to `brandIcons.js`, since lucide has none). The Vercel URL became `PROFILE.site`, driving a per-route `<link rel="canonical">` and `og:url` rather than a button linking the site to itself; a static fallback for non-JS crawlers sits in `index.html`.
 
 7. **Mobile button alignment** — button rows now stack full-width below a measured breakpoint; socials moved to their own row. See §4.8–4.9.
+
+8. **Section continuation** — a sticky "up next" chip that fades in near the bottom of a page, plus prev/next between project case studies, so reaching the end of a page is not a dead end. See §8.
 
 ---
 
@@ -197,5 +199,41 @@ Removed: Vite's default purple lightning-bolt `favicon.svg` and the unused `icon
 - Real project screenshots would justify reinstating an `image` field per project.
 - SeaTrace's "12 Floor-balance modules" / "13 Organoleptic QC forms" were queried as unsupported by the bullets — the resume corroborates both ("a 12-module material-balance system, 13 quality-inspection forms"). **No change needed.**
 
+### Open, from §8
+- On desktop the chip does not appear on About / Skills (and Path at 1440px) because those pages fit the viewport. Options: leave it, show it on short pages after a short delay, or add the inline end-of-page pager as a fallback for short pages.
+- On mobile at full scroll the chip overlaps the footer line. Fixable with bottom breathing room on the scroll container, at the cost of dead space once dismissed.
+- Path shows both the chip ("Up next — Contact") and the CTA ("Let's build something"); same destination, different words. Suppressible in one line if it reads as duplication.
+
 ### Not verified
 Real-device touch behaviour, Safari, Firefox, and cold-cache font loading (FOUT). All checks above ran in headless Chrome.
+
+---
+
+## 8. Section continuation (added 2026-09-08)
+
+**The ask:** reaching the bottom of a page shouldn't force a trip back to the nav to continue.
+
+**Chosen pattern:** a sticky chip in the bottom-right (bottom bar on phones) that fades in once the page is scrolled 70% and offers the next section in `NAV` order. Dismissable; a dismissal holds for the session (`nextHintDismissed` in `appStore`, deliberately outside `partialize` so it resets on reload).
+
+An inline pager at the end of the document was the other candidate — no JavaScript, no thresholds — and is still the fallback if the chip proves fussy.
+
+**Pieces:** `components/NextHint/`, `hooks/useScrolledPast.js`, `getNextSection()` in `content/nav.js`. Rendered from `MainLayout`, which owns the scroll container.
+
+**Also added:** `features/work/ProjectPager/` — prev / next / all-work under each case study, driven by `getAdjacentProjects()`. It replaced the *bottom* "Back to work" link (the one at the top of the page stays).
+
+### The scroll guard, and what it means
+`useScrolledPast` refuses to fire when there is less than 240px of scrollable distance. Without that, a page shorter than the viewport trips the threshold instantly and the chip appears unprompted — the exact behaviour that makes this pattern feel like an ad. Measured consequence:
+
+| Page | 1280×800 | 1440×900 | 390×844 |
+|---|---|---|---|
+| Home | shows | shows | shows |
+| Work | shows | shows | shows |
+| About | too short | too short | shows |
+| Skills | too short | too short | shows |
+| Path | shows | too short | shows |
+| Contact | n/a — end of ladder | n/a | n/a |
+
+So on a large desktop the chip only appears on the two long pages. That is defensible (nothing to scroll means nothing to reach the bottom of) but it is a real inconsistency, and the alternatives are noted in §7.
+
+### Worth knowing about the premise
+In this layout the navbar sits in a fixed shell and **never scrolls away** — only `.view` scrolls. So the chip saves cursor travel, not a scroll journey back to the top. Its clearest value is on mobile, where the nav is behind the burger, and that is also where it fires on every page.

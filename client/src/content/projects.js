@@ -312,3 +312,11 @@ export const PROJECTS = [
 export const getProjectBySlug = (slug) => PROJECTS.find((p) => p.slug === slug);
 
 export const getProjectIndex = (slug) => PROJECTS.findIndex((p) => p.slug === slug);
+
+// Neighbours of a project in list order. No wrap-around: the first has no
+// previous, the last has no next.
+export const getAdjacentProjects = (slug) => {
+  const i = PROJECTS.findIndex((p) => p.slug === slug);
+  if (i === -1) return { prev: null, next: null };
+  return { prev: PROJECTS[i - 1] ?? null, next: PROJECTS[i + 1] ?? null };
+};

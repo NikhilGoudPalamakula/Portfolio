@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar/Navbar';
 import Footer from './Footer/Footer';
+import NextHint from '@/components/NextHint';
 import styles from './MainLayout.module.scss';
 
 /*
@@ -26,6 +27,7 @@ const MainLayout = () => {
           <Footer />
         </div>
       </div>
+      <NextHint scrollRef={scrollRef} />
     </div>
   );
 };

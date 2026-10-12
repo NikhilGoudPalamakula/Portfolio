@@ -5,8 +5,8 @@ import Bullets from '@/components/Bullets';
 import BrandIcon from '@/components/BrandIcon';
 import styles from './ProjectDetail.module.scss';
 
-const BackLink = ({ className = '' }) => (
-  <Link to="/work" className={`${styles.back} ${className}`}>
+const BackLink = () => (
+  <Link to="/work" className={styles.back}>
     <ChevronLeft size={16} /> Back to work
   </Link>
 );
@@ -95,8 +95,6 @@ const ProjectDetail = ({ project, num }) => {
           </div>
         </section>
       </div>
-
-      <BackLink className={styles.backBottom} />
     </article>
   );
 };

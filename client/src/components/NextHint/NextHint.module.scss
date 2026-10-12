@@ -1,0 +1,101 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.hint {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: stretch;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  // The design is flat, so this is only enough lift to read as floating.
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+
+  // Hidden state: out of the layout's way and unclickable.
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.28s $ease-out, transform 0.28s $ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    transform: none;
+  }
+
+  // On a phone the chip spans the content width rather than hugging a corner,
+  // so it never sits on top of body copy.
+  @media (max-width: $bp-btn) {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  color: var(--ink);
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--surface2);
+
+    .arrow {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  @media (max-width: $bp-btn) {
+    flex: 1;
+  }
+}
+
+.kicker {
+  @include mono-label(10.5px, 0.1em);
+  color: var(--accent);
+}
+
+.label {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+// Echoes the oversized section numeral, scaled down.
+.num {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.arrow {
+  flex: none;
+  transition: transform 0.25s $ease-out;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  color: var(--muted);
+  border-left: 1px solid var(--line);
+  transition: color 0.2s, background 0.2s;
+
+  &:hover {
+    color: var(--ink);
+    background: var(--surface2);
+  }
+}

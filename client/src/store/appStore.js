@@ -12,9 +12,13 @@ const useAppStore = create(
     (set) => ({
       theme: systemTheme(),
       isMenuOpen: false,
+      // Session-only: a dismissal is a signal, so it sticks until reload.
+      nextHintDismissed: false,
 
       setTheme: (theme) => set({ theme }),
       toggleTheme: () => set((s) => ({ theme: s.theme === 'dark' ? 'light' : 'dark' })),
+
+      dismissNextHint: () => set({ nextHintDismissed: true }),
 
       toggleMenu: () => set((s) => ({ isMenuOpen: !s.isMenuOpen })),
       closeMenu: () => set({ isMenuOpen: false }),
