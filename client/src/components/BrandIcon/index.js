@@ -1,4 +1,4 @@
-import { Database, Terminal, GitBranch } from 'lucide-react';
+import { Database, Terminal, GitBranch, CircuitBoard } from 'lucide-react';
 import { BRAND_ICONS, BRAND_ALIAS, isDarkBrand } from './brandIcons';
 import styles from './BrandIcon.module.scss';
 
@@ -7,6 +7,7 @@ const LINE_FALLBACK = {
   SQL: Database,
   CLI: Terminal,
   'CI/CD': GitBranch,
+  'PLC logic': CircuitBoard,
 };
 
 const BrandIcon = ({ name, size = 15 }) => {
@@ -22,7 +23,11 @@ const BrandIcon = ({ name, size = 15 }) => {
         fill={brand.hex}
         aria-hidden="true"
       >
-        <path d={brand.path} />
+        {brand.paths ? (
+          brand.paths.map((p) => <path key={p.d} d={p.d} fill={p.fill} />)
+        ) : (
+          <path d={brand.path} />
+        )}
       </svg>
     );
   }

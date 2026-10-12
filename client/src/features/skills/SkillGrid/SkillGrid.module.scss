@@ -3,12 +3,24 @@
 
 @include rise-keyframes;
 
+.hint {
+  margin: -18px 0 30px;
+  @include mono-label(11px, 0.08em);
+  color: var(--muted);
+}
+
 .skills {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: clamp(24px, 4vw, 52px);
+  align-items: start;
 
-  @media (max-width: $bp-md) {
+  // Four groups: 4 across, then 2 × 2, then one column.
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $bp-sm) {
     grid-template-columns: 1fr;
   }
 }
@@ -24,17 +36,115 @@
     padding: 0;
     list-style: none;
   }
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 15px;
-  }
 }
 
 .title {
   @include group-title;
   margin-bottom: 18px;
   padding-bottom: 10px;
+}
+
+// A skill with no project behind it — plain text.
+.plain {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+}
+
+// ── Interactive skill ─────────────────────────────────────────
+.skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline dotted var(--hairline);
+  text-underline-offset: 4px;
+  transition: color 0.2s;
+
+  &:hover,
+  .open & {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+// How many projects — a small hint that there's something behind it.
+.count {
+  min-width: 18px;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--muted);
+  text-align: center;
+  transition: border-color 0.2s, color 0.2s;
+
+  .skill:hover &,
+  .open & {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s $ease-out;
+
+  .open & {
+    grid-template-rows: 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.panelInner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 6px;
+  padding-left: 16px;
+  border-left: 1px solid var(--accent);
+
+  .open & {
+    margin-top: 10px;
+  }
+}
+
+.usedIn {
+  @include mono-label(10px, 0.1em);
+  color: var(--muted);
+}
+
+.project {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--body2);
+  transition: color 0.2s, gap 0.2s;
+
+  &:hover {
+    color: var(--ink);
+    gap: 8px;
+  }
 }

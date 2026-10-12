@@ -14,6 +14,7 @@ const AboutBody = () => (
     </div>
     <figure className={styles.portrait}>
       <img src={portrait} alt={PROFILE.name} width="960" height="1200" />
+      <figcaption>{PROFILE.location}</figcaption>
     </figure>
     <div className={styles.facts}>
       <FactList column />

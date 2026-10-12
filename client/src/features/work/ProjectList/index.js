@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Plus } from 'lucide-react';
 import { PROJECTS, CAREER } from '@/content';
+import CareerBar from '@/features/work/CareerBar';
 import styles from './ProjectList.module.scss';
 
 // Projects grouped under the employer they were built at, in CAREER order.
@@ -44,11 +45,19 @@ const ProjectRow = ({ p, r }) => (
   </li>
 );
 
-const Employer = ({ job, projects, open, onToggle, i }) => {
+const groupId = (org) => `employer-${slugify(org)}`;
+
+const Employer = ({ job, projects, open, highlight, onToggle, onHover, i }) => {
   const panelId = `work-${slugify(job.org)}`;
 
   return (
-    <section className={`${styles.group} ${open ? styles.open : ''}`} style={{ '--i': i }}>
+    <section
+      id={groupId(job.org)}
+      className={`${styles.group} ${open ? styles.open : ''} ${highlight ? styles.highlight : ''}`}
+      style={{ '--i': i }}
+      onMouseEnter={() => onHover(job.org)}
+      onMouseLeave={() => onHover(null)}
+    >
       <h3 className={styles.heading}>
         <button
           type="button"
@@ -94,6 +103,10 @@ const ProjectList = () => {
   // Most recent employer open by default, so real work shows on arrival.
   const [open, setOpen] = useState(() => new Set([GROUPS[0]?.job.org]));
 
+  // Employer under the pointer — shared by the career bar and the groups,
+  // so hovering either lights up the other.
+  const [hovered, setHovered] = useState(null);
+
   const toggle = (org) =>
     setOpen((prev) => {
       const next = new Set(prev);
@@ -102,19 +115,38 @@ const ProjectList = () => {
       return next;
     });
 
+  // From the career bar: open the employer (never close it) and bring it into view.
+  const select = (org) => {
+    setOpen((prev) => new Set(prev).add(org));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document
+      .getElementById(groupId(org))
+      ?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  };
+
   return (
-    <div className={styles.list}>
-      {GROUPS.map(({ job, projects }, i) => (
-        <Employer
-          key={job.org}
-          job={job}
-          projects={projects}
-          open={open.has(job.org)}
-          onToggle={() => toggle(job.org)}
-          i={i}
-        />
-      ))}
-    </div>
+    <>
+      <CareerBar
+        jobs={GROUPS.map((g) => g.job).filter((job) => job.roles.length)}
+        active={hovered}
+        onHover={setHovered}
+        onSelect={select}
+      />
+      <div className={styles.list}>
+        {GROUPS.map(({ job, projects }, i) => (
+          <Employer
+            key={job.org}
+            job={job}
+            projects={projects}
+            open={open.has(job.org)}
+            highlight={hovered === job.org}
+            onToggle={() => toggle(job.org)}
+            onHover={setHovered}
+            i={i}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

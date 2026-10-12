@@ -45,6 +45,7 @@ export const QUICK_FACTS = [
   { k: 'Focus', v: 'Full-Stack · Web' },
   { k: 'Main stack', v: 'TypeScript · React · Node' },
   { k: 'Experience', v: '5+ yrs engineering · 3+ in software' },
+  { k: 'Education', v: 'B.Tech EIE · MBA (pursuing)' },
   { k: 'Based in', v: 'Hyderabad, IN' },
   { k: 'Status', v: 'Open to work' },
 ];

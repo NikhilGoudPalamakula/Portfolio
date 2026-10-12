@@ -5,10 +5,11 @@ export const CAREER = [
     org: 'PatternLab.ai',
     location: 'Hyderabad, India',
     roles: [{ role: 'Full-Stack Developer', year: 'May 2024 – Present' }],
-    note: 'Building front-end features and Node.js services on the core product.',
+    note: 'Building multi-tenant B2B SaaS platforms for manufacturing, energy and export businesses on React, TypeScript, NestJS and MongoDB.',
   },
   {
     org: 'Matrical Technologies',
+    short: 'Matrical', // career-bar label; its block is too narrow for the full name
     location: 'Bengaluru, India',
     roles: [{ role: 'Full-Stack Developer', year: 'Jun 2023 – May 2024' }],
     note: 'Worked directly with clients — turning requirements into technical specs and shipping against them, demoing the platform, and supporting pre-sales pitches that brought in new business.',

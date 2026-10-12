@@ -1,40 +1,72 @@
 @use '../../../styles/variables.scss' as *;
 @use '../../../styles/mixins.scss' as *;
 
-// Desktop: story on the left, portrait over the facts on the right.
+// Desktop: story beside the portrait (top right), sized so the photo is about
+// as tall as the story; quick facts run full width beneath in two columns.
 // Stacked: portrait first, so it isn't buried under the whole story.
 .about {
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: auto 1fr;
+  // 270px: measured — within ~40px of the story's height from 900px to 1350px.
+  grid-template-columns: 1fr 270px;
   grid-template-areas:
-    'body photo'
-    'body facts';
-  column-gap: clamp(28px, 5vw, 72px);
-  row-gap: 28px;
+    'body  photo'
+    'facts facts';
+  align-items: start;
+  column-gap: clamp(28px, 5vw, 64px);
+  row-gap: 40px;
 
   @media (max-width: $bp-md) {
     grid-template-columns: 1fr;
-    grid-template-rows: none;
     grid-template-areas:
       'photo'
       'body'
       'facts';
+    row-gap: 28px;
   }
 }
 
 .body {
   grid-area: body;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
+// Six facts as two columns of three, filled top-to-bottom.
 .facts {
   grid-area: facts;
+
+  dl {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    column-gap: clamp(28px, 5vw, 64px);
+    border-top: 0;
+  }
+
+  // Each column draws its own top rule, so the gap stays clean.
+  dl > div:nth-child(3n + 1) {
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: $bp-md) {
+    dl {
+      grid-template-rows: none;
+      grid-auto-flow: row;
+      border-top: 1px solid var(--line);
+    }
+
+    dl > div:nth-child(3n + 1) {
+      border-top: 0;
+    }
+  }
 }
 
 .portrait {
   grid-area: photo;
   margin: 0;
-  max-width: 360px;
 
   img {
     display: block;
@@ -45,6 +77,12 @@
     border: 1px solid var(--line);
     border-radius: $radius;
     background: var(--surface);
+  }
+
+  figcaption {
+    margin-top: 10px;
+    @include mono-label(10.5px, 0.1em);
+    color: var(--muted);
   }
 
   @media (max-width: $bp-md) {

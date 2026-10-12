@@ -12,6 +12,7 @@ export const PROJECTS = [
     repo: null,
     live: 'https://app.seatrace.ai/login',
     metrics: [
+      { v: '~200', k: 'Daily users' },
       { v: '~89', k: 'NestJS REST modules' },
       { v: '30+', k: 'Analytical reports' },
       { v: '12', k: 'Floor-balance modules' },
@@ -46,7 +47,7 @@ export const PROJECTS = [
       {
         label: 'Technical lead & architecture',
         items: [
-          'Co-led the build as one of two technical leads',
+          'Co-led the build as one of two technical leads in a 6-person engineering team',
           'Owned the data architecture across the ERP — schema design for each module, how data is stored and fetched, and the coding conventions the codebase follows',
         ],
       },
@@ -73,12 +74,13 @@ export const PROJECTS = [
     year: 'Dec 2024 – Jan 2026',
     org: 'PatternLab.ai',
     blurb:
-      'A multi-tenant factory intelligence platform that turns live machine telemetry and operator data into real-time OEE, utilisation and downtime insight — serving many plants from one codebase.',
+      'A multi-tenant factory intelligence platform that turns live machine telemetry and operator data into real-time OEE, utilisation and downtime insight — live across 6 client organisations from one codebase.',
     tint: 'var(--indigo)',
     tags: ['React', 'TypeScript', 'NestJS', 'MongoDB', 'Python'],
     repo: null,
     live: 'https://app.patternlab.ai/login',
     metrics: [
+      { v: '6', k: 'Client organisations' },
       { v: '~$1,100', k: 'Recurring fetch cost cut' },
       { v: '15', k: 'Automated report types' },
       { v: '~45', k: 'React feature modules' },
@@ -87,7 +89,7 @@ export const PROJECTS = [
       {
         label: 'What it does',
         items: [
-          'Multi-tenant platform serving many plants and tenants from a single codebase',
+          'Multi-tenant platform live across 6 client organisations from a single codebase',
           'Ingests live IoT telemetry streamed from machines on the shop floor',
           'Combines it with operator-entered data — production, quality, downtime reasons, manpower, refrigeration and energy',
           'Classifies every machine as running, stopped or idle and streams that state live to dashboards over WebSockets',
@@ -184,13 +186,14 @@ export const PROJECTS = [
       "A platform to monitor energy use across a facility, spot where it's being wasted, and fix it.",
     confidential: true,
     tint: 'var(--clay)',
-    tags: ['React', 'Node.js', 'Express', 'MongoDB'],
+    tags: ['React', 'Node.js', 'Express', 'MongoDB', 'Python', 'Docker'],
     repo: null,
     live: null,
     metrics: [
       { v: '45+', k: 'REST API modules' },
       { v: '40+', k: 'React frontend modules' },
       { v: '4', k: 'User personas' },
+      { v: '~50%', k: 'Faster API responses' },
     ],
     groups: [
       {
@@ -219,7 +222,7 @@ export const PROJECTS = [
           'Designed the MongoDB schema and data architecture — collections, relationships, and time-series analytics storage',
           'Auth and session security — JWT with refresh rotation, bcrypt password hashing, and automatic session expiry',
           'React frontend with 40+ feature modules across four role-scoped personas (live monitoring, dashboards, root-cause diagnosis, asset master-data)',
-          'Optimized API response times with database indexing, query tuning, and pagination for lighter payloads',
+          'Cut API response times by ~50% (approx. 3s to 1.5s) with database indexing, query tuning, and pagination for lighter payloads',
           'Scheduled report generation (EJS + node-cron + Postmark) with client-side PDF/CSV export',
           "Integrated with the Python analytics team's engine, co-designing the shared MongoDB data model so data was stored for efficient reads and writes on both sides",
           'Containerised a three-service stack with Docker Compose for on-prem deployment',
@@ -239,6 +242,7 @@ export const PROJECTS = [
     tags: ['React', 'Node.js', 'Express', 'MongoDB'],
     repo: null,
     live: null,
+    metrics: [{ v: '4', k: 'Core modules' }],
     groups: [
       {
         label: 'What it does',
@@ -266,11 +270,12 @@ export const PROJECTS = [
       {
         label: 'What it involved',
         items: [
+          'Liaised directly with plant and client engineering teams to capture requirements for new machine functionality and process changes, then specified, built and commissioned the automation on site',
           'Implemented Beijer X2 Pro HMI systems in place of legacy Mitsubishi and Allen-Bradley HMIs and PLCs',
           "Kept each machine's core process structure intact while adding new functionality on top of it",
           'Implemented 21 CFR Part 11 features — user management, audit trails and electronic reports',
           'Re-worked machine process-flow logic to suit what each plant actually needed',
-          'Delivered across multiple client plants, often running several implementations at once',
+          'Delivered across 4 pharmaceutical companies, often running several plant units in parallel',
         ],
       },
       {
@@ -312,6 +317,17 @@ export const PROJECTS = [
 export const getProjectBySlug = (slug) => PROJECTS.find((p) => p.slug === slug);
 
 export const getProjectIndex = (slug) => PROJECTS.findIndex((p) => p.slug === slug);
+
+// Projects whose copy (tags, bullets, metrics…) names a skill as a whole word.
+// Driven by the text, so a "Used in" link is only shown where the project
+// actually says so. `terms` overrides the label for aliased skills.
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const projectText = new Map(PROJECTS.map((p) => [p.slug, JSON.stringify(p)]));
+
+export const getProjectsForSkill = (skill, terms = [skill]) => {
+  const res = terms.map((t) => new RegExp(`(^|[^A-Za-z])${escapeRe(t)}([^A-Za-z]|$)`));
+  return PROJECTS.filter((p) => res.some((re) => re.test(projectText.get(p.slug))));
+};
 
 // Neighbours of a project in list order. No wrap-around: the first has no
 // previous, the last has no next.

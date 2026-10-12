@@ -39,8 +39,38 @@
 
 // ── Employer (accordion item) ─────────────────────────────────
 .group {
+  position: relative;
   border-bottom: 1px solid var(--line);
+  scroll-margin-top: 24px;
   @include rise;
+
+  // Accent rail when this employer is hovered — here or on the career bar.
+  &::before {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 26px;
+    width: 2px;
+    height: 34px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.25s ease;
+  }
+
+  &.highlight::before {
+    transform: scaleY(1);
+  }
+
+  &.highlight .org {
+    color: var(--accent);
+  }
+
+  @media (max-width: $bp-sm) {
+    &::before {
+      left: -12px;
+    }
+  }
 }
 
 .heading {

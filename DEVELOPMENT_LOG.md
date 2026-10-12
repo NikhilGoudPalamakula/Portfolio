@@ -270,7 +270,7 @@ Also on 2026-10-12: the light theme moved off cream to a neutral near-white (`--
 
 - Placed on About, not Home: the Home hero is pure typography (name with a word-by-word entrance), and a photo would compete with it; About's narrow right column had room above the quick facts.
 - `src/assets/portrait.jpg` — cropped 4:5 from a 3066×1737 landscape original (crop starts at x=820, full height, so the pillar on the left is excluded), resized to 960×1200, JPEG q82 → 121 KB. Re-crop from the original if a different framing is wanted.
-- `AboutBody` uses grid areas: desktop `body | photo` over `body | facts`; stacked below `$bp-md` it goes photo → story → facts (capped at 300px wide) so the photo isn't buried at the bottom.
+- `AboutBody` uses grid areas: desktop `body | photo` over `facts | photo` (facts moved under the story on 2026-10-12 — with photo *and* facts stacked on the right, the left column ended ~400px early and left a dead gap); stacked below `$bp-md` it goes photo → story → facts (capped at 300px wide) so the photo isn't buried at the bottom.
 - Not done: using it as the `og:image` for link previews.
 
 ---
@@ -308,3 +308,39 @@ Also on 2026-10-12: the light theme moved off cream to a neutral near-white (`--
 **4 · Section-number drift** — `SectionHead`'s ghost number moves 36px down and fades to 0.06 over the first 420px of scroll, via `animation-timeline: scroll(nearest block)` (MainLayout's `.view` is the scroller). Pure CSS; wrapped in `@supports` and `prefers-reduced-motion: no-preference`, so Firefox and reduced-motion users get a still number.
 
 **Verified in real time** this time — headless Chrome driven over the DevTools protocol (a throwaway script, not in the repo): the trace caught mid-draw and settled, SBR clicked open with rows caught mid-step, and the ghost measured at `translateY(25.7px)`, opacity `0.089` after 300px of scroll (expected 300/420 × 36 = 25.7).
+
+---
+
+## 15. Resume refresh (added 2026-10-12)
+
+New resume: `C:\Other files\Resumes-N\Nikhil_Goud_Palamakula_Resume.pdf` (+ `.docx`, created 2026-10-12). Copied over `client/public/Nikhil_Goud_Palamakula_Resume.pdf`; served 200 / 66,986 bytes. The PDF's text is glyph-encoded, so the content was diffed against the matching `.docx`.
+
+Site copy brought in line with it:
+- **SeaTrace** — `~200 daily users` metric; "one of two technical leads in a 6-person engineering team".
+- **Factory Intelligence** — "live across 6 client organisations" (blurb + first bullet) and a `6 client organisations` metric.
+- **EMS** — `~50% faster API responses` metric; bullet now says "~50% (approx. 3s to 1.5s)"; tags add Python, Docker (per the resume's EMS line).
+- **HMS** — `4 core modules` metric.
+- **Pharma automation** — added the liaise / specify / commission-on-site bullet; "4 pharmaceutical companies … several plant units in parallel".
+- **PatternLab header** — note now the resume's line: multi-tenant B2B SaaS for manufacturing, energy and export.
+- **Skills** — added Vite, Highcharts, Socket.IO, Nginx, GitLab, and a fourth **Industrial** group (Mitsubishi, Allen-Bradley, SCADA, Beijer HMI, 21 CFR Part 11). Grid went 3 → 4 columns, 2 × 2 below 1000px, 1 column below `$bp-sm`. Socket.IO / Nginx / Highcharts / GitLab / SCADA have no logo in the registry, so they render as plain labels.
+- **Quick facts** — added `Education: B.Tech EIE · MBA (pursuing)`.
+
+Not in the resume, left unchanged: the Home stat **"15 plants & sites"**.
+- **Follow-up, same day:** once the facts sat on the left, the left column became the taller one and the gap moved under the photo. The portrait now `align-self: stretch`es across both rows with `object-fit: cover` (`object-position: 50% 30%`, `min-height: 420px`), so both columns end level at any desktop width; stacked layout keeps the fixed 4:5 crop.
+- **Replaced, same day:** the stretched crop read as awkward. Final layout: story full width on top; below it a `236px | 1fr` row with the uncropped 4:5 portrait (+ a mono `PROFILE.location` caption) beside the quick facts. At 236px the photo (~295px tall) matches the six fact rows within ~15px, so neither side leaves a gap. Stacked: photo → story → facts, unchanged.
+- **Final (user wanted the photo top-right):** story beside a `270px` portrait in the top row; the six quick facts run full width beneath as two columns of three (`grid-auto-flow: column`, each column drawing its own top rule). 270px was measured to land within ~40px of the story's height from 900px to 1350px. Stacked layout unchanged.
+- **Skills follow-up, same day:** Nginx removed. GitLab logo added (Simple Icons 13.21.0, `#FC6D26`). Highcharts isn't in Simple Icons, so its mark was taken from the header logo on highcharts.com (7 coloured polygons, rescaled into the 24×24 box) — `BrandIcon` now also accepts `{ paths: [{ d, fill }] }` for multi-colour marks. Industrial group now leads with **PLC logic** (lucide `CircuitBoard` line icon via `LINE_FALLBACK`).
+
+---
+
+## 16. Interaction pass (added 2026-10-12)
+
+**The ask:** more interaction, easier reading, more engagement. Agreed set (from six options): skill → project links, a career timeline bar, an interactive signal trace. Explicitly avoided: an AI chat widget.
+
+**1 · Skills → "Used in".** A skill that appears in a project's copy becomes a disclosure button with a count badge; clicking it slides open "Used in" links to those case studies. `getProjectsForSkill()` (in `projects.js`) matches the skill as a whole word, case-sensitive, against each project's full data — so a link appears only where the project actually says so. `SKILL_TERMS` in `skills.js` adds aliases (`Material UI` ↔ `MUI`, `PLC logic` ↔ `PLC`). Skills with no match (JavaScript, Redux, Ant Design, CSS, SCSS, SQL, Redis, AWS, Git · CI/CD, GitLab, SCADA) stay plain text by design. One open at a time.
+
+**2 · Career bar on Work.** `features/work/CareerBar/` draws every employer on one proportional bar from the earliest role start to now, with year ticks and a "Now" end. Spans are parsed from the `CAREER[].roles[].year` strings ("Nov 2020 – Dec 2021", "Present" = today). Hover state is shared with the groups below (hover either and both light up — accent block + accent rail beside the group). Clicking a block opens that employer (never closes it) and smooth-scrolls to it (`scroll-margin-top: 24px`; instant under reduced motion). `CAREER[].short` overrides the bar label (Matrical).
+
+**3 · Trace readout on Home.** The trace's two halves are buttons (hover, focus or tap): the digital stretch lights up with "2020 – 2023 · Automation engineer · SBR Automation", the analog one with "2023 – Now · Full-stack developer · Matrical → PatternLab.ai". The rest of the line dims, the matching label turns accent, and a caption card floats below (absolutely positioned — the hero never shifts). Captions are `aria-live="polite"`.
+
+**Verified** in headless Chrome over the DevTools protocol with real pointer events: NestJS opened to SeaTrace + Factory Intelligence; hovering the SBR block lit it and the SBR group; clicking it opened SBR (`aria-expanded=true`) and scrolled the view to 678px; both trace halves showed their cards.

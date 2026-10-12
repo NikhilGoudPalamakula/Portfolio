@@ -1,0 +1,96 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins.scss' as *;
+
+@include rise-keyframes;
+
+.career {
+  margin: 0 0 34px;
+  @include rise;
+}
+
+.bar {
+  position: relative;
+  height: 38px;
+}
+
+.segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  // 2px seam between neighbouring employers.
+  border: 0;
+  border-right: 2px solid var(--paper);
+  border-radius: $radius;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--body);
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.25s ease, color 0.25s ease;
+
+  &:hover,
+  &.active {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+}
+
+.label {
+  @include mono-label(10.5px, 0.08em);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ticks {
+  position: relative;
+  height: 22px;
+  margin-top: 8px;
+
+  span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+
+    // Small tick mark above each year.
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -6px;
+      width: 1px;
+      height: 4px;
+      background: var(--hairline);
+    }
+  }
+
+  // "Now" hangs off the right edge instead of centring past it.
+  .now {
+    transform: translateX(-100%);
+    color: var(--accent);
+
+    &::before {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  // Too many years to label on a phone — keep every other one.
+  @media (max-width: $bp-sm) {
+    span:nth-child(even):not(.now) {
+      visibility: hidden;
+    }
+  }
+}
