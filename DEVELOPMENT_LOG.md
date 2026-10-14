@@ -357,3 +357,9 @@ Not in the resume, left unchanged: the Home stat **"15 plants & sites"**.
 - **HMS** gained three "What I built" points from the resume (modules, client requirements, demos & pre-sales); **Pharma** gained a `4 · Pharma companies` metric.
 - Skill → project links re-checked after the rewrite: every match that existed before still resolves.
 - **Reverted the folds, same day:** the user felt the `<details>` folds only added clicks once the copy was already condensed. `more` sections now render openly like before, and each project's "More of what I built" group was merged into its `built` list (Factory Intelligence 9 points, EMS 7). Fold styles removed.
+
+---
+
+## 18. Resume refresh — "SR Automation" (added 2026-10-14)
+
+New resume (`Resumes-N/Nikhil_Goud_Palamakula_Resume.pdf`, 2026-10-14) copied over `client/public/`; served 200 / 66,984 bytes. The only content change from the 2026-10-12 version is the employer name **SBR Automation → SR Automation**, now applied in `career.js`, both SBR projects' `org` in `projects.js`, and the Home trace caption. Earlier log entries and `PROJECT_CONTENT_ARCHIVE.md` keep the old name as a historical record.

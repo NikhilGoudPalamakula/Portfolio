@@ -15,7 +15,7 @@ export const CAREER = [
     note: 'Worked directly with clients — turning requirements into technical specs and shipping against them, demoing the platform, and supporting pre-sales pitches that brought in new business.',
   },
   {
-    org: 'SBR Automation',
+    org: 'SR Automation',
     roles: [
       { role: 'SCADA Engineer', year: 'Jan 2022 – Jun 2023' },
       { role: 'Automation & Marketing Engineer', year: 'Nov 2020 – Dec 2021' },

@@ -212,7 +212,7 @@ export const PROJECTS = [
     slug: 'pharma-automation-21-cfr-part-11',
     title: 'Pharma Automation & 21 CFR Part 11 Implementations',
     category: 'Industrial Automation · Compliance',
-    org: 'SBR Automation',
+    org: 'SR Automation',
     blurb:
       "Automation and compliance implementations across pharma manufacturing plants — moving legacy machines onto audit-ready systems, keeping each machine's core process structure intact while building new functionality onto it.",
     tint: 'var(--indigo)',
@@ -248,7 +248,7 @@ export const PROJECTS = [
     slug: 'injectables-mixing-vessel-automation',
     title: 'Injectables Mixing Vessel Automation',
     category: 'Industrial Automation',
-    org: 'SBR Automation',
+    org: 'SR Automation',
     blurb:
       'Ground-up mixing-vessel automation for the injectables division at Eugia Unit 3 — control logic, HMI, reporting and audit trails, all built from scratch.',
     tint: 'var(--clay)',
