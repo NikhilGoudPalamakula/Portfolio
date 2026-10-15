@@ -24,7 +24,7 @@ const PHASES = [
     key: 'automation',
     d: DIGITAL,
     when: '2020 – 2023',
-    title: 'Automation engineer · SR Automation',
+    title: 'Factory Automation Engineer · SR Automation',
     body: 'PLC logic, SCADA and HMIs for pharma and manufacturing plants — plus client negotiations and quotation-to-closing.',
   },
   {
