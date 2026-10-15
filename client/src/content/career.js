@@ -16,6 +16,7 @@ export const CAREER = [
   },
   {
     org: 'SR Automation',
+    location: 'Hyderabad, India',
     roles: [{ role: 'Factory Automation Engineer', year: 'Nov 2020 – Jun 2023' }],
     note: 'Programmed and commissioned PLC systems (Mitsubishi, Allen-Bradley) and designed SCADA interfaces backed by SQL — alongside techno-commercial work: client negotiations, new orders, and quotation-to-closing on projects including a Mahindra & Mahindra migration.',
   },

@@ -70,6 +70,7 @@ const Employer = ({ job, projects, open, highlight, onToggle, onHover, i }) => {
             <span className={styles.org}>{job.org}</span>
             <span className={styles.count}>
               {projects.length} {projects.length === 1 ? 'project' : 'projects'}
+              {job.location && ` · ${job.location.split(',')[0]}`}
             </span>
           </span>
           <span className={styles.roles}>
